@@ -74,7 +74,7 @@ def getSubredditInfo(subreddit_url):
 
             display_name = subreddit_header.get_attribute('display-name')
             descrip = subreddit_header.get_attribute('description')
-            descrip = makeCatLike(str(descrip))
+            descrip = catLike(str(descrip))
             subscribers = subreddit_header.get_attribute('subscribers')
             active_users = subreddit_header.get_attribute('active')
 
@@ -100,10 +100,25 @@ def getSubredditInfo(subreddit_url):
 
 
 # This method changes the text string given in to be a "cat-like" phrase
-def makeCatLike(input_str):
-    cat_sounds = ["meow", "prr", "*lick*", ":3", ":0", "mm", "XD"]
-
-    catifiedString = input_str + " ".join([random.choice(cat_sounds) for _ in range(3)])
+def catLike(des):
+    catifiedString = ""
+    for letter in des:
+        randomChance = random.randint(0, 30)
+        if randomChance == 15 and letter == " ":
+            catifiedString += " :3 "
+        if randomChance == 20 and letter == " ":
+            catifiedString += " >:0 "
+        if randomChance == 25 and letter == " ":
+            catifiedString += " *lick lick* "
+        if randomChance == 5 and letter == " ":
+            catifiedString += " HISSSSSSSSSS...  "
+        catifiedString += letter
+        if letter == "m":
+            randNum = random.randint(0, 3)
+            if randNum == 2:
+                catifiedString += "oeow"
+        if letter == "p":
+            catifiedString += "rr"
 
     return catifiedString
 
@@ -161,8 +176,12 @@ for entry in pages:
         if description:
             text_content = description
             foundWords = findSpecificWords(text_content)
+            totalWords = 0
+            for word in list(foundWords):
+                totalWords += 1
             if foundWords:
-                print(f"{num} : {foundWords}")
+                print(f"{foundWords}")
+                print(f"DocNum:{num} : TotalWords: {totalWords}")
 
                 storeInDb = storeInDatabase(datab, foundWords, url)
         else:
