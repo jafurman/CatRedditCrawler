@@ -9,10 +9,10 @@ import pymongo
 import traceback
 
 from selenium import webdriver
+from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
+import random
 
 
 def connectDataBase():
@@ -45,16 +45,14 @@ def findSpecificWords(paragraph):
     return sourcedWords
 
 
-def storeInDatabase(db, title ,content):
+def storeInDatabase(db, content, CurrentUrl):
     try:
         # new collection
         col = db.OrganizedCatWords
         if content != '':
-            doc = {
-                "subreddit": str(title),
-                "content": str(content),
-            }
+            doc = getSubredditInfo(CurrentUrl)
             addition = col.insert_one(doc)
+            print(addition)
         else:
             print('No need to store this garbage')
         return True
@@ -63,30 +61,34 @@ def storeInDatabase(db, title ,content):
         return False
 
 
-def extractSubredditName(url):
-    try:
-        parsed_url = urlparse(url)
-        path_parts = [part for part in parsed_url.path.split('/') if part]
-        if len(path_parts) >= 2 and path_parts[0] == 'r':
-            return path_parts[1]
-        else:
-            return None
-
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
-
-
-def getTitleWithUrl(subreddit_url):
+def getSubredditInfo(subreddit_url):
     try:
         driver = webdriver.Chrome()
         driver.get(subreddit_url)
 
         driver.implicitly_wait(3)
 
-        # Fetch the title directly
-        title = driver.title
-        return title.strip() if title else None
+        # Fetch information from the shreddit-subreddit-header
+        try:
+            subreddit_header = driver.find_element(By.TAG_NAME, 'shreddit-subreddit-header')
+
+            display_name = subreddit_header.get_attribute('display-name')
+            descrip = subreddit_header.get_attribute('description')
+            descrip = makeCatLike(str(descrip))
+            subscribers = subreddit_header.get_attribute('subscribers')
+            active_users = subreddit_header.get_attribute('active')
+
+        except NoSuchElementException:
+            print("Subreddit header not found")
+            return None
+
+        return {
+            'display_name': str(display_name),
+            'CatDescription': str(descrip),
+            'subscribers': str(subscribers),
+            'active_users': str(active_users),
+            'cat-like_words': str(foundWords)
+        }
 
     except Exception as e:
         print(f"Error: {e}")
@@ -95,6 +97,15 @@ def getTitleWithUrl(subreddit_url):
     finally:
         # Close the browser window
         driver.quit()
+
+
+# This method changes the text string given in to be a "cat-like" phrase
+def makeCatLike(input_str):
+    cat_sounds = ["meow", "prr", "*lick*", ":3", ":0", "mm", "XD"]
+
+    catifiedString = input_str + " ".join([random.choice(cat_sounds) for _ in range(3)])
+
+    return catifiedString
 
 
 # ---------------------------- VV main method essentially VV----------------------------------#
@@ -138,7 +149,6 @@ try:
 except HTTPError as e:
     print(e)
 
-
 num = 0
 for entry in pages:
     try:
@@ -147,7 +157,6 @@ for entry in pages:
         pageHtml = entry.get("html")
         soupy = bs(pageHtml, "html.parser")
         paragraphs = soupy.find_all('p')
-        pageTitle = getTitleWithUrl(url)
         description = ' '.join([paragraph.get_text(strip=True) for paragraph in paragraphs])
         if description:
             text_content = description
@@ -155,7 +164,7 @@ for entry in pages:
             if foundWords:
                 print(f"{num} : {foundWords}")
 
-                storeInDb = storeInDatabase(datab, pageTitle,foundWords)
+                storeInDb = storeInDatabase(datab, foundWords, url)
         else:
             print(f"{num} : NULL")
 
