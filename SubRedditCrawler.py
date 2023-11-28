@@ -1,6 +1,6 @@
 # I don't know why I created this. I now have a database with much more cat data than I intended. I think now I'll
 # create a website that posts photos of cats on specific pages
-
+import time
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup as bs
@@ -59,18 +59,17 @@ def find_target_page_title(url_string):
 
 
 # adding the documents to the database connection object
-def save_html_content_db(url_string, page_title):
+def save_html_content_db(url_string):
     print(f"Adding in {url_string}")
 
     db = connectDataBase()
-    collection = db.CatSr
+    collection = db.Subreddits
     createDate = datetime.datetime.now()
     htmlObj = urlopen(url_string)
     soupy = bs(htmlObj.read(), "html.parser")
     htmlText = str(soupy)
 
     doc = {
-        "PageTitle": page_title,
         "Url": url_string,
         "html": str(htmlText),
         "created_at": createDate
@@ -92,10 +91,7 @@ def takeOutUnwantedLinks(link_list):
 
     for url in link_list:
         url_href = url.get("href")
-        if url_href and (
-                url_href.startswith("https://www.reddit.com/r/") or url_href.startswith("https://www.reddit.com/t/")):
-            continue
-        else:
+        if url_href and url_href.startswith("https://www.reddit.com/r/"):
             valid_links.append(url)
 
     return valid_links
@@ -105,7 +101,7 @@ def takeOutUnwantedLinks(link_list):
 
 
 # initial frontier setting of CFA.org (Cat Fanciers Association)
-initialFrontier = ["https://reddit.com/r", "https://reddit.com/t"]
+initialFrontier = ["https://www.reddit.com/r/"]
 
 # Adding hopefully the cat links to the frontier after ../cat/
 try:
@@ -116,23 +112,22 @@ else:
     soup = bs(htmlPage.read(), "html.parser")
     # creating a list of all links on each HTML page
     allLinks = soup.findAll('a', {})
-    takeOutUnwantedLinks(allLinks)
+    validLinks = takeOutUnwantedLinks(allLinks)
     totalLinksVisited = 0
 
     # frontier priority queue
-    for link in allLinks:
+    for link in validLinks:
+        # Each link will take 2 seconds to search
+        time.sleep(1)
         hrefLink = link.get("href")
         print(f"Link visited: {hrefLink}")
         if hrefLink and is_valid_url(hrefLink):  # Check if the URL is valid
             initialFrontier = addLinksToFrontier(initialFrontier, hrefLink)
             print(f"FRONTIER QUEUE: {initialFrontier}")
 
-            AboutTheCATNAME = find_target_page_title(hrefLink)
-
-            save_html_content_db(hrefLink, AboutTheCATNAME)
+            save_html_content_db(hrefLink)
 
             if totalLinksVisited >= 300:
-                print(f"STOP Here because target page was found at page titled: {AboutTheCATNAME}")
                 initialFrontier.clear()
                 break
             totalLinksVisited += 1
