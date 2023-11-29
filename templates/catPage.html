@@ -4,56 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cat Page</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #6c3483;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            position: relative; /* Add this to position the image */
+        }
+
+        #catImage {
+            position: absolute; /* Add this to position the image */
+            height: 50px; /* Set the height of the image */
+            width: 50px; /* Set the width of the image */
+            left: 20px; /* Adjust the left position as needed */
+            top: 50%; /* Adjust the top position as needed */
+            transform: translateY(-50%); /* Center the image vertically */
+            border-radius: 50%; /* Make it a circle */
+        }
+
+        #content-container {
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Add this to position the background image */
+        }
+
+        #backgroundImage {
+            position: absolute; /* Add this to position the background image */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('your-background-image.jpg'); /* Replace with your image URL */
+            opacity: 0.5; /* Set the opacity as needed */
+            z-index: -1; /* Send it to the back */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #eee;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        #randomCatData {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #6c3483;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-    <h1>Data from MongoDB</h1>
-    <div id="randomCatData"></div>
+    <header>
+        <img id="catImage" src="/templates/catIcon.png" alt="Cat Image">
+        <h1>Cat Subreddit of the Day!</h1>
+    </header>
 
-<script>
-    async function fetchData() {
-        try {
-            const response = await fetch('/api/data');
-            const data = await response.json();
+    <div id="content-container">
+        <div id="randomCatData"></div>
+        <table id="data-table"></table>
+        <div id="backgroundImage"></div> <!-- Add this for the background image -->
+    </div>
 
-            // Print the fetched data to the console for inspection
-            console.log('Fetched Data:', data);
+    <footer>
+        &copy; 2023 Cat Page
+    </footer>
 
-            // Check if data array is not empty
-            if (data.length > 0) {
-                // Select a random document from the fetched data
-                const randomCat = data[Math.floor(Math.random() * data.length)];
+    <script>
+        async function fetchData() {
+    const response = await fetch('/api/data');
+    const data = await response.json();
 
-                // Check if randomCat is defined before accessing its properties
-                if (randomCat) {
-                    // Display selected data on the HTML page
-                    const randomCatDataDiv = document.getElementById('randomCatData');
-                    randomCatDataDiv.innerHTML = `
-                        <p><strong>_id:</strong> ${randomCat._id}</p>
-                        <p><strong>display_name:</strong> ${randomCat.display_name}</p>
-                        <p><strong>CatDescription:</strong> ${randomCat.CatDescription}</p>
-                        <p><strong>subscribers:</strong> ${randomCat.subscribers}</p>
-                        <p><strong>active_users:</strong> ${randomCat.active_users}</p>
-                        <p><strong>cat-like_words:</strong> ${randomCat['cat-like_words']}</p>
-                    `;
-                } else {
-                    console.error('RandomCat is undefined.');
-                }
-            } else {
-                console.error('Data array is empty.');
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
+    if (data.length > 0) {
+        const randomCat = data[Math.floor(Math.random() * data.length)];
+
+        if (randomCat) {
+            const dataTable = document.getElementById('data-table');
+            dataTable.innerHTML = `
+                <tr>
+                    <th>Type</th>
+                    <th>Info</th>
+                </tr>
+                <tr>
+                    <td>Subreddit</td>
+                    <td>${randomCat.display_name}</td>
+                </tr>
+                <tr>
+                    <td>CatDescription :3</td>
+                    <td>${randomCat.CatDescription}</td>
+                </tr>
+                <tr>
+                    <td># of subs</td>
+                    <td>${randomCat.subscribers}</td>
+                </tr>
+                <tr>
+                    <td>Cat-like words</td>
+                    <td>${randomCat['cat-like_words']}</td>
+                </tr>
+            `;
+        } else {
+            console.error('RandomCat is undefined.');
         }
+    } else {
+        console.error('Data array is empty.');
     }
+}
 
-    // Fetch data every 5 seconds
-    setInterval(fetchData, 5 * 1000);
-
-    // Comment out the following line to disable fetching every 24 hours
-    // setInterval(fetchData, 24 * 60 * 60 * 1000);
-
-    // Initial fetch when the page loads
-    fetchData();
-</script>
+setInterval(fetchData, 5 * 1000);
+setInterval(fetchData, 24 * 60 * 60 * 1000);
+fetchData();
+    </script>
 </body>
 </html>
