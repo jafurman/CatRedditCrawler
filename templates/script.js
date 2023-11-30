@@ -9,23 +9,18 @@ async function fetchData() {
             const dataTable = document.getElementById('data-table');
             dataTable.innerHTML = `
                 <tr>
-                    <th>Type</th>
-                    <th>Info</th>
+                    <th colspan="2"> r/${randomCat.display_name} </th>
                 </tr>
                 <tr>
-                    <td>Subreddit</td>
-                    <td>${randomCat.display_name}</td>
-                </tr>
-                <tr>
-                    <td>CatDescription :3</td>
+                    <td> Descrrription :3 </td>
                     <td>${randomCat.CatDescription}</td>
                 </tr>
                 <tr>
-                    <td># of subs</td>
+                    <td> Subscribpurrs </td>
                     <td>${randomCat.subscribers}</td>
                 </tr>
                 <tr>
-                    <td>Cat-like words</td>
+                    <td> Cat-Related Words </td>
                     <td>${randomCat['cat-like_words']}</td>
                 </tr>
             `;
@@ -38,5 +33,5 @@ async function fetchData() {
 }
 
 setInterval(fetchData, 5 * 1000);
-setInterval(fetchData, 24 * 60 * 60 * 1000);
+//setInterval(fetchData, 24 * 60 * 60 * 1000);
 fetchData();
