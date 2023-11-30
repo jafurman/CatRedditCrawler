@@ -6,143 +6,110 @@
     <title>Cat Page</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
 
-        header {
-            background-color: #6c3483;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            position: relative; /* Add this to position the image */
-        }
+/* Reset some default styles */
+body, h1, h2, p, table {
+    margin: 0;
+    padding: 0;
+}
 
-        #catImage {
-            position: absolute; /* Add this to position the image */
-            height: 50px; /* Set the height of the image */
-            width: 50px; /* Set the width of the image */
-            left: 20px; /* Adjust the left position as needed */
-            top: 50%; /* Adjust the top position as needed */
-            transform: translateY(-50%); /* Center the image vertically */
-            border-radius: 50%; /* Make it a circle */
-        }
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    animation: colorChange 30s infinite linear; /* Animated background color changes */
+    position: relative;
+}
 
-        #content-container {
-            text-align: center;
-            margin: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Add this to position the background image */
-        }
+@keyframes colorChange {
+    0%, 100% {
+        background: linear-gradient(45deg, #E0BBE4, #957DAD);
+    }
+    25% {
+        background: linear-gradient(45deg, #E0BBE4, #957DAD);
+    }
+    50% {
+        background: linear-gradient(45deg, #E0BBE4, #957DAD);
+    }
+    75% {
+        background: linear-gradient(45deg, #E0BBE4, #957DAD);
+    }
+}
 
-        #backgroundImage {
-            position: absolute; /* Add this to position the background image */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('your-background-image.jpg'); /* Replace with your image URL */
-            opacity: 0.5; /* Set the opacity as needed */
-            z-index: -1; /* Send it to the back */
-        }
+header, footer {
+    background-color: #333; /* Dark gray header and footer */
+    color: white;
+    padding: 1em;
+    text-align: center;
+    height: 3em;
+}
 
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #eee;
-        }
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    color: white; /* White title color */
+    font-weight: bold;
+}
 
-        h1 {
-            margin-top: 0;
-        }
+#content-container {
+    max-width: 1000px; /* Increased width for the content container */
+    margin: auto; /* Center the content container */
+    padding: 20px;
+}
 
-        #randomCatData {
-            margin-top: 20px;
-        }
+#data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+#data-table th, #data-table td {
+    border: 2px solid #555; /* Darker border for data table */
+    padding: 16px; /* Increased padding for data table cells */
+    font-size: 16px; /* Increased font size for text inside the table */
+    text-align: left;
+}
 
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
+#data-table th {
+    background-color: #D3D3D3; /* Light gray header for data table */
+    color: #333;
+}
 
-        th {
-            background-color: #6c3483;
-            color: #fff;
-        }
+/* Remove CSS animation for table row highlighting */
+#data-table tr {
+    background-color: #fff;
+}
+
+#catImage {
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+}
+
+/* Add more styles as needed */
+
     </style>
 </head>
 <body>
     <header>
-        <img id="catImage" src="/templates/catIcon.png" alt="Cat Image">
         <h1>Cat Subreddit of the Day!</h1>
     </header>
 
     <div id="content-container">
         <div id="randomCatData"></div>
         <table id="data-table"></table>
-        <div id="backgroundImage"></div> <!-- Add this for the background image -->
+        <div id="backgroundImage"></div>
     </div>
 
     <footer>
         &copy; 2023 Cat Page
+        <img id="catImage" src="/templates/catIcon.png" alt="Cat Image">
     </footer>
 
-    <script>
-        async function fetchData() {
-    const response = await fetch('/api/data');
-    const data = await response.json();
-
-    if (data.length > 0) {
-        const randomCat = data[Math.floor(Math.random() * data.length)];
-
-        if (randomCat) {
-            const dataTable = document.getElementById('data-table');
-            dataTable.innerHTML = `
-                <tr>
-                    <th>Type</th>
-                    <th>Info</th>
-                </tr>
-                <tr>
-                    <td>Subreddit</td>
-                    <td>${randomCat.display_name}</td>
-                </tr>
-                <tr>
-                    <td>CatDescription :3</td>
-                    <td>${randomCat.CatDescription}</td>
-                </tr>
-                <tr>
-                    <td># of subs</td>
-                    <td>${randomCat.subscribers}</td>
-                </tr>
-                <tr>
-                    <td>Cat-like words</td>
-                    <td>${randomCat['cat-like_words']}</td>
-                </tr>
-            `;
-        } else {
-            console.error('RandomCat is undefined.');
-        }
-    } else {
-        console.error('Data array is empty.');
-    }
-}
-
-setInterval(fetchData, 5 * 1000);
-setInterval(fetchData, 24 * 60 * 60 * 1000);
-fetchData();
-    </script>
+    <script src="/templates/script.js"></script>
 </body>
 </html>
+
