@@ -4,108 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cat Page</title>
-
-    <style>
-
-/* Reset some default styles */
-body, h1, h2, p, table {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    animation: colorChange 30s infinite linear;
-    position: relative;
-}
-
-@keyframes colorChange {
-    0%, 100% {
-        background: linear-gradient(45deg, #E0BBE4, #957DAD);
-    }
-    25% {
-        background: linear-gradient(45deg, #E0BBE4, #957DAD);
-    }
-    50% {
-        background: linear-gradient(45deg, #E0BBE4, #957DAD);
-    }
-    75% {
-        background: linear-gradient(45deg, #E0BBE4, #957DAD);
-    }
-}
-
-header, footer {
-    background-color: #333;
-    color: white;
-    padding: 1em;
-    text-align: center;
-    height: 3em;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2em;
-    color: white;
-    font-weight: bold;
-}
-
-#content-container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
-}
-
-#data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    border-radius: 10px; /* Rounded corners */
-    overflow: hidden; /* Hide overflow for rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
-}
-
-#data-table th, #data-table td {
-    border: 2px solid #555;
-    padding: 16px;
-    font-size: 16px;
-    text-align: left;
-}
-
-#data-table th {
-    background-color: #D3D3D3;
-    color: #333;
-}
-
-#data-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-#data-table tr:hover {
-    background-color: #ddd;
-}
-
-#catImage {
-    width: 50px;
-    height: 50px;
-    margin-top: 10px;
-    border-radius: 50%; /* Circular image */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
-}
-
-/* Add more styles as needed */
-
-    </style>
 </head>
 <body>
     <header>
-        <h1>Cat Subreddit of the Day!</h1>
+
+        <h1>
+            <img id="catImage1" src="/templates/catIcon.png" alt="Cat Image">
+            Cat Subreddit of the Day!
+            <img id="catImage2" src="/templates/catIcon.png" alt="Cat Image">
+        </h1>
+
     </header>
 
     <div id="content-container">
@@ -115,11 +23,11 @@ header h1 {
     </div>
 
     <footer>
+        <img id="catImage3" src="/templates/catIcon.png" alt="Cat Image">
         &copy; 2023 Cat Page
-        <img id="catImage" src="/templates/catIcon.png" alt="Cat Image">
+        <img id="catImage4" src="/templates/catIcon.png" alt="Cat Image">
     </footer>
 
     <script src="/templates/script.js"></script>
 </body>
 </html>
-

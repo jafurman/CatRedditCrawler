@@ -12,12 +12,16 @@ async function fetchData() {
                     <th colspan="2"> r/${randomCat.display_name} </th>
                 </tr>
                 <tr>
-                    <td> Descrrription :3 </td>
+                    <td> Description </td>
                     <td>${randomCat.CatDescription}</td>
                 </tr>
                 <tr>
-                    <td> Subscribpurrs </td>
+                    <td> Subscribers </td>
                     <td>${randomCat.subscribers}</td>
+                </tr>
+                <tr>
+                    <td> Active Users </td>
+                    <td>${randomCat.active_users}</td>
                 </tr>
                 <tr>
                     <td> Cat-Related Words </td>
@@ -33,5 +37,6 @@ async function fetchData() {
 }
 
 setInterval(fetchData, 5 * 1000);
-//setInterval(fetchData, 24 * 60 * 60 * 1000);
+// Uncomment the line below if you want to fetch data once every 24 hours
+// setInterval(fetchData, 24 * 60 * 60 * 1000);
 fetchData();
