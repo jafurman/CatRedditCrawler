@@ -155,7 +155,17 @@ searchWords = [
     "serene", "sly", "regal", "majestic", "hunter",
     "sweet", "charming", "playful", "sneaky", "sleepy",
     "alert", "sassy", "graceful", "loving", "independent",
-    "companion", "lapcat", "purr", "nurturing", "meow"
+    "companion", "lapcat", "purr", "nurturing", "meow",
+    "feline", "whiskers", "kitty", "purring", "tailless",
+    "playful", "napping", "velvet", "fluff", "curled",
+    "clawing", "whisking", "sleek", "lounging", "gaze",
+    "fuzzy", "naptime", "pawprints", "snooze", "prowling",
+    "stealthy", "tuxedo", "curled", "curious", "graceful",
+    "stealth", "prowler", "snug", "agile", "charming",
+    "eyes", "prowess", "curious", "slumber", "agile",
+    "tails", "sleek", "poised", "nimble", "luminary",
+    "gaze", "frolic", "comfort", "trill", "vigilant",
+    "shadow", "softness", "dainty", "cozy", "regal"
 ]
 
 # Open Documents and parse

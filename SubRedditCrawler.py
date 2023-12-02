@@ -53,7 +53,6 @@ def find_target_page_title(url_string):
 # adding the documents to the database connection object
 def save_html_content_db(url_string, totalLinksNum):
     print(f"+ 1 Subreddit: {url_string} w/ link count: {totalLinksNum}")
-
     db = connectDataBase()
     collection = db.Subreddits
     createDate = datetime.datetime.now()
@@ -80,19 +79,14 @@ def is_valid_url(url):
     except ValueError:
         return False
 
-# TEST FOR UNWANTED LINKS PAST 75 ENTRIES RNNNNnnnnnnnnnn!!!!!!
+
 def takeOutUnwantedLinks(link_list):
     valid_links = []
 
     for url in link_list:
         url_href = url.get("href")
         if url_href and url_href.startswith("https://www.reddit.com/r/"):
-            parsed_url = urlparse(url_href)
-            # Extract the path from the URL
-            path_segments = parsed_url.path.split('/')
-            # Check if there are only two path segments (r/{name}) and no characters after that
-            if len(path_segments) == 4 and parsed_url.query == '' and parsed_url.fragment == '' and path_segments[3] == '':
-                valid_links.append(url)
+            valid_links.append(url)
 
     return valid_links
 
@@ -102,16 +96,13 @@ def addLinksToFrontier(frontierQueue, url_string):
     if url_string not in frontierQueue:
         # fix crawl logic on part where /r/{word}/ NOTHING PAST THIS '/'
 
-        # second check of adding /r/{com}/ END to extract base reddit url
-        url = str(url_string)
-        url_string = extract_subreddit(url)
-
         frontierQueue.append(url_string)
     return frontierQueue
 
 
 def extract_subreddit(url_string):
     try:
+        url_string = str(url_string)
         # regular expression pattern to handle URLs with query parameters
         pattern = r'https://www\.reddit\.com/r/([^/?]+)?'
 
@@ -131,13 +122,13 @@ def extract_subreddit(url_string):
         return url_string
 
 
-def crawlSubreddits(frontierQueue):
+def crawlSubreddits(frontierQueue, visited_urls):
     total_links_visited = 0
 
     while frontierQueue:
         current_url = frontierQueue.popleft()
 
-        # see which links are being cralwed through (for logging if needed, can make permanent list here)
+        # see which links are being crawled through (for logging if needed, can make permanent list here)
         # print(f"Visiting and passing : {current_url}")
 
         try:
@@ -154,8 +145,11 @@ def crawlSubreddits(frontierQueue):
             href_link = link.get("href")
             if href_link and is_valid_url(href_link):
                 frontierQueue = addLinksToFrontier(frontierQueue, href_link)
-                total_links_visited += 1
-                save_html_content_db(href_link, total_links_visited)
+                href_link = extract_subreddit(href_link)
+                if href_link not in visited_urls:
+                    total_links_visited += 1
+                    save_html_content_db(href_link, total_links_visited)
+                    visited_urls.add(href_link)
 
                 if total_links_visited >= 100000:
                     frontierQueue.clear()
@@ -165,8 +159,9 @@ def crawlSubreddits(frontierQueue):
 # ---------------------------- VV main method essentially VV----------------------------------#
 
 
+visited_urls = set()
 # initial frontier setting of reddit
 initialFrontier = deque(["https://www.reddit.com/r/"])
 
 # Adding hopefully the cat links to the frontier after ../cat/
-crawlSubreddits(initialFrontier)
+crawlSubreddits(initialFrontier, visited_urls)
