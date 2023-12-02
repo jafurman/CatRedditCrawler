@@ -20,12 +20,16 @@ async function fetchData() {
                     <td>${randomCat.subscribers}</td>
                 </tr>
                 <tr>
-                    <td> Active Users </td>
-                    <td>${randomCat.active_users}</td>
-                </tr>
-                <tr>
                     <td> Cat-Related Words </td>
                     <td>${randomCat['cat-like_words']}</td>
+                </tr>
+                <tr>
+                    <td> Total Cat Bonus </td>
+                    <td>${randomCat['Total CatBonus']}</td>
+                </tr>
+                <tr>
+                    <td> Cat Document Score </td>
+                    <td>${randomCat['Cat Document Score']}</td>
                 </tr>
             `;
         } else {

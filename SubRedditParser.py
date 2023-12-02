@@ -45,12 +45,54 @@ def findSpecificWords(paragraph):
     return sourcedWords
 
 
+def getExcessData(dictionary):
+    found_words_list = dictionary.get('cat-like_words', [])
+
+    # Bonuses
+    catBonus = len(dictionary.get('cat-like_words', ['cat']))
+    catBonus += len(dictionary.get('cat-like_words', ['cats']))
+    catBonus += len(dictionary.get('cat-like_words', ['kitten']))
+    catBonus += len(dictionary.get('cat-like_words', ['kitty']))
+    catBonus += len(dictionary.get('cat-like_words', ['kittens']))
+    catBonus += len(dictionary.get('cat-like_words', ['kitties']))
+    catBonus += len(dictionary.get('cat-like_words', ['meow']))
+    catBonus += len(dictionary.get('cat-like_words', ['meows']))
+    catBonus += len(dictionary.get('cat-like_words', ['purr']))
+    catBonus += len(dictionary.get('cat-like_words', ['purrs']))
+    catBonus += len(dictionary.get('cat-like_words', ['prr']))
+    catBonus *= 3
+
+    memeBonus = len(dictionary.get('cat-like_words', [':3']))
+    memeBonus += len(dictionary.get('cat-like_words', ['XD']))
+    memeBonus *= 2
+
+    memeBonus = len(dictionary.get('cat-like_words', [':3']))
+    memeBonus += len(dictionary.get('cat-like_words', ['XD']))
+    memeBonus *= 2
+
+    felineBonus = len(dictionary.get('cat-like_words', ['feline']))
+    felineBonus += len(dictionary.get('cat-like_words', ['furball']))
+
+    score = len(found_words_list)
+
+    bonusScore = 0
+    bonusScore += catBonus
+    bonusScore += memeBonus
+    bonusScore += felineBonus
+
+    dictionary['Cat Related Words'] = str(score)
+    dictionary['Total CatBonus'] = str(bonusScore)
+    dictionary['Cat Document Score'] = str(score + bonusScore)
+    return dictionary
+
+
 def storeInDatabase(db, content, CurrentUrl):
     try:
         # new collection
         col = db.OrganizedCatWords
         if content != '':
             doc = getSubredditInfo(CurrentUrl)
+            doc = getExcessData(doc)
             addition = col.insert_one(doc)
             print(addition)
         else:
@@ -87,7 +129,7 @@ def getSubredditInfo(subreddit_url):
             'CatDescription': str(descrip),
             'subscribers': str(subscribers),
             'active_users': str(active_users),
-            'cat-like_words': str(foundWords)
+            'cat-like_words': list(foundWords)
         }
 
     except Exception as e:
@@ -107,11 +149,13 @@ def catLike(des):
         if randomChance == 15 and letter == " ":
             catifiedString += " :3 "
         if randomChance == 20 and letter == " ":
-            catifiedString += " >:0 "
+            catifiedString += " >:3 "
         if randomChance == 25 and letter == " ":
             catifiedString += " *lick lick* "
         if randomChance == 5 and letter == " ":
-            catifiedString += " HISSSSSSSSSS...  "
+            catifiedString += " *lick*"
+        if randomChance == 10 and letter == " ":
+            catifiedString += " ;3 "
         catifiedString += letter
         if letter == "m":
             randNum = random.randint(0, 3)
@@ -165,7 +209,8 @@ searchWords = [
     "eyes", "prowess", "curious", "slumber", "agile",
     "tails", "sleek", "poised", "nimble", "luminary",
     "gaze", "frolic", "comfort", "trill", "vigilant",
-    "shadow", "softness", "dainty", "cozy", "regal"
+    "shadow", "softness", "dainty", "cozy", "regal",
+    ":3", "uwu", "cuddles", "memes", "kitty", "cats", "kitties", "meows", "xd", "prr", "furball", "feline"
 ]
 
 # Open Documents and parse
