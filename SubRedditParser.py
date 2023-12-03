@@ -20,7 +20,6 @@ def connectDataBase():
         client = pymongo.MongoClient(host="localhost", port=27017)
         # database connection is localhost client.[databaseName]
         db = client.CatDB
-        print(f"DB : CONNECTED")
         return db
     except Exception as error:
         traceback.print_exc()
@@ -60,15 +59,11 @@ def getExcessData(dictionary):
     catBonus += len(dictionary.get('cat-like_words', ['purr']))
     catBonus += len(dictionary.get('cat-like_words', ['purrs']))
     catBonus += len(dictionary.get('cat-like_words', ['prr']))
-    catBonus *= 3
+    catBonus *= 1.5
 
     memeBonus = len(dictionary.get('cat-like_words', [':3']))
     memeBonus += len(dictionary.get('cat-like_words', ['XD']))
-    memeBonus *= 2
-
-    memeBonus = len(dictionary.get('cat-like_words', [':3']))
-    memeBonus += len(dictionary.get('cat-like_words', ['XD']))
-    memeBonus *= 2
+    memeBonus *= 1.25
 
     felineBonus = len(dictionary.get('cat-like_words', ['feline']))
     felineBonus += len(dictionary.get('cat-like_words', ['furball']))
@@ -94,7 +89,6 @@ def storeInDatabase(db, content, CurrentUrl):
             doc = getSubredditInfo(CurrentUrl)
             doc = getExcessData(doc)
             addition = col.insert_one(doc)
-            print(addition)
         else:
             print('No need to store this garbage')
         return True
@@ -235,8 +229,7 @@ for entry in pages:
             for word in list(foundWords):
                 totalWords += 1
             if foundWords:
-                print(f"{foundWords}")
-                print(f"DocNum:{num} : TotalWords: {totalWords}")
+                print(f"{totalWords} total related words words : {foundWords}")
 
                 storeInDb = storeInDatabase(datab, foundWords, url)
         else:

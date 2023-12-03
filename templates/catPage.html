@@ -3,29 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cat Page</title>
+    <title>Kitty-Cat Subreddits? What?</title>
+    <style>
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f5f5f5; /* Cream background */
+    color: #3a3a3a; /* Dark gray text */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    margin: 30px 0; /* Increase the margin */
+}
+
+h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0; /* Remove default margin */
+}
+
+h2, h3 {
+    text-align: center;
+    margin: 10px auto; /* Increase the margin and center horizontally */
+    display: inline-block; /* Display as inline block */
+    width: 80%; /* Set a fixed width to create a square appearance */
+    font-size: 15px; /* Decrease font size */
+}
+
+#catImage1,
+#catImage2 {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+}
+
+#catImage3,
+#catImage4 {
+    width: 90px;
+    height: 90px;
+    margin: 0 5px;
+}
+
+#content-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#data-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#data-table th, #data-table td {
+    padding: 10px;
+    border: 1px solid #dcdcdc; /* Light gray border */
+}
+
+button {
+    padding: 10px;
+    background-color: #FFD1DC; /* Light pink button */
+    color: #551A8B; /* Dark purple text */
+    border: none;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #8A2BE2; /* Darker purple on hover */
+    color: #FFF; /* White text on hover */
+}
+
+#toggleDataContainer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+}
+    </style>
 </head>
 <body>
     <header>
-
         <h1>
             <img id="catImage1" src="/templates/catIcon.png" alt="Cat Image">
-            Cat Subreddit of the Day!
+            Welcome to Subpurreddits!
             <img id="catImage2" src="/templates/catIcon.png" alt="Cat Image">
         </h1>
-
+        <h2>
+            A subreddit web spider that stores and scrapes reddit html for words related to cats.
+        </h2>
+        <h3>
+            The 'Cat Document Score' below is calculated based on weights associated with 'cat' relevance.
+            So 'cat' has more weight than 'paw' because paw is an attribute of the cat, hence less total score
+            than the word 'cat' itself.
+        </h3>
     </header>
 
     <div id="content-container">
         <div id="randomCatData"></div>
         <table id="data-table"></table>
         <div id="backgroundImage"></div>
+        <button id="toggleTopCatBonus" onclick="toggleTopCatBonus()">Show Cat-Ranked Subreddits</button>
+    </div>
+
+    <div id="toggleDataContainer" style="display: none;">
+        <h2>Ranked Subreddits Based on Relational Information to Cats</h2>
+        <ul id="topCatBonusList"></ul>
     </div>
 
     <footer>
-        <img id="catImage3" src="/templates/catIcon.png" alt="Cat Image">
-        &copy; 2023 Cat Page
-        <img id="catImage4" src="/templates/catIcon.png" alt="Cat Image">
+        <img id="catImage3" src="/templates/cat4.png" alt="Cat Image">
+        &copy; 2023 Sub(purr)eddit, lol
+        <img id="catImage4" src="/templates/cat3.png" alt="Cat Image">
     </footer>
 
     <script src="/templates/script.js"></script>
