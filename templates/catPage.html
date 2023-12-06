@@ -84,8 +84,8 @@
 
         #data-table {
             border-collapse: collapse;
-            width: 80%;
-            max-height: 150px;
+            width: 70%;
+            max-height: 200px;
             overflow-y: auto;
             margin: 40px auto 0; /* Adjust the top margin as needed */
         }
@@ -121,208 +121,90 @@
             margin-top: 20px;
             text-align: center;
         }
-
         .pad {
             width: 25px;
             height: 27px;
             background-color: #654321;
-            -webkit-border-radius: 63px 63px 63px 63px / 108px     108px 72px 72px;
-            border-radius: 50%  50%  50%  50%  / 60%   60%         40%  40%;
+            -webkit-border-radius: 63px 63px 63px 63px / 108px 108px 72px 72px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             display: block;
             position: absolute;
         }
+
         .large {
-           width: 70px;
-           height: 80px;
-           transform: rotate(80deg);
-           left: 100px;
-           top: 50px;
+            width: 70px;
+            height: 80px;
+            transform: rotate(80deg);
         }
+
         .small-1 {
-           transform: rotate(50deg);
-           left: 145px;
-           top: 28px;
+            transform: rotate(50deg);
         }
+
         .small-2 {
-           transform: rotate(65deg);
-           left: 174px;
-           top: 50px;
+            transform: rotate(65deg);
         }
+
         .small-3 {
-           transform: rotate(98deg);
-           position: absolute;
-           left: 178px;
-           top: 87px;
+            transform: rotate(98deg);
+            position: absolute;
         }
+
         .small-4 {
-           transform: rotate(140deg);
-           position: absolute;
-           left: 158px;
-           top: 117px;
+            transform: rotate(140deg);
+            position: absolute;
         }
-  .pad {
-    background-color: black;
-    }
 
-  /* position and animate */
-  .paw-print-1,
-  .paw-print-2,
-  .paw-print-3,
-  .paw-print-4,
-  .paw-print-5,
-  .paw-print-6,
-  .paw-print-7,
-  .paw-print-8 {
-    opacity: 0;
-    position: absolute;
-    width: 10px; /* Adjust width as needed for smaller size */
-    height: 10px; /* Adjust height as needed for smaller size */
-    background-color: black; /* Black color */
-    border-radius: 50%;
-    animation: walk 3s linear infinite;
-  }
+        .paw-prints-container {
+            position: relative;
+        }
 
-  .paw-print-1 {
-    left: 30px; /* Adjust left position as needed */
-    top: 50px; /* Adjust top position as needed */
-    transform: rotate(-40deg);
-  }
+        .paw-print {
+          opacity: 0;
+          position: absolute;
+          left: 75px;
+          top: 300px;
+          transform: rotate(-40deg);
+          -webkit-animation: walk 3s linear infinite;
+          animation: /*keyframe*/walk /*duration*/3s /*transition*/linear /*repeat*/infinite;
+        }
 
-  .paw-print-2 {
-    left: 230px; /* Adjust left position as needed */
-    top: 30px; /* Adjust top position as needed */
-    transform: rotate(-5deg);
-    animation-delay: 0.25s;
-  }
+          @-webkit-keyframes walk {
+          10%  {opacity: 1;}
+          60% {opacity: 0;}
+        }
 
-  .paw-print-3 {
-    left: 330px; /* Adjust left position as needed */
-    top: -120px; /* Adjust top position as needed */
-    transform: rotate(-10deg);
-    animation-delay: 0.5s;
-  }
+        @keyframes walk {
+          /* appear */
+          10%  {opacity: 1;}
+          /* disappear */
+          60% {opacity: 0;}
+        }
 
-  .paw-print-4 {
-    left: 530px; /* Adjust left position as needed */
-    top: 30px; /* Adjust top position as needed */
-    transform: rotate(-20deg);
-    animation-delay: 0.75s;
-  }
 
-  .paw-print-5 {
-    left: 680px; /* Adjust left position as needed */
-    top: -200px; /* Adjust top position as needed */
-    transform: rotate(10deg);
-    animation-delay: 1s;
-  }
 
-  .paw-print-6 {
-    left: 830px; /* Adjust left position as needed */
-    top: -50px; /* Adjust top position as needed */
-    transform: rotate(10deg);
-    animation-delay: 1.25s;
-  }
-
-  .paw-print-7 {
-    left: 1030px; /* Adjust left position as needed */
-    top: -200px; /* Adjust top position as needed */
-    transform: rotate(20deg);
-    animation-delay: 1.5s;
-  }
-
-  .paw-print-8 {
-    left: 1105px; /* Adjust left position as needed */
-    top: 0; /* Adjust top position as needed */
-    transform: rotate(10deg);
-    animation-delay: 1.75s;
-  }
-
-  /* walking effect animation keyframes */
-  @-webkit-keyframes walk {
-    25%  {opacity: 1;}
-    100% {opacity: 0;}
-  }
-
-  @keyframes walk {
-    /* appear */
-    25%  {opacity: 1;}
-    /* disappear */
-    100% {opacity: 0;}
-  }
     </style>
 </head>
 <body>
     <div class="banner">
         <header>
             <h1>
-                                <div class="paw-print-1">
-            <div class="pad large"></div>
-            <div class="pad small-1"></div>
-            <div class="pad small-2"></div>
-            <div class="pad small-3"></div>
-            <div class="pad small-4"></div>
-        </div>
-
-        <div class="paw-print-2">
-            <div class="pad large"></div>
-            <div class="pad small-1"></div>
-            <div class="pad small-2"></div>
-            <div class="pad small-3"></div>
-            <div class="pad small-4"></div>
-        </div>
-
-        <div class="paw-print-3">
-            <div class="pad large"></div>
-            <div class="pad small-1"></div>
-            <div class="pad small-2"></div>
-            <div class="pad small-3"></div>
-            <div class="pad small-4"></div>
-        </div>
+                <div class="paw-prints-container">
+                    <div class="paw-print-1">
+                        <div class="pad large"></div>
+                        <div class="pad small-1"></div>
+                        <div class="pad small-2"></div>
+                        <div class="pad small-3"></div>
+                        <div class="pad small-4"></div>
+                    </div>
+                </div>
 
 
                 <img id="catImage1" src="/templates/catIcon.png" alt="Cat Image">
                 TITLE OF WEBPAGE
                 <img id="catImage2" src="/templates/catIcon.png" alt="Cat Image">
 
-                                <div class="paw-print-4">
-            <div class="pad large"></div>
-            <div class="pad small-1"></div>
-            <div class="pad small-2"></div>
-            <div class="pad small-3"></div>
-            <div class="pad small-4"></div>
-        </div>
 
-        <div class="paw-print-5">
-            <div class="pad large"></div>
-            <div class="pad small-1"></div>
-            <div class="pad small-2"></div>
-            <div class="pad small-3"></div>
-            <div class="pad small-4"></div>
-        </div>
-
-        <div class="paw-print-6">
-            <div class="pad large"></div>
-            <div class="pad small-1"></div>
-            <div class="pad small-2"></div>
-            <div class="pad small-3"></div>
-            <div class="pad small-4"></div>
-        </div>
-
-        <div class="paw-print-7">
-            <div class="pad large"></div>
-            <div class="pad small-1"></div>
-            <div class="pad small-2"></div>
-            <div class="pad small-3"></div>
-            <div class="pad small-4"></div>
-        </div>
-
-        <div class="paw-print-8">
-            <div class="pad large"></div>
-            <div class="pad small-1"></div>
-            <div class="pad small-2"></div>
-            <div class="pad small-3"></div>
-            <div class="pad small-4"></div>
-        </div>
             </h1>
         </header>
     </div>
@@ -360,5 +242,41 @@
     </footer>
 
     <script src="/templates/script.js"></script>
+<script>
+    // JavaScript to randomly place the paw prints
+    function getRandomPosition() {
+        var screenWidth = window.innerWidth;
+        var screenHeight = window.innerHeight;
+
+        var randomX = Math.floor(Math.random() * screenWidth);
+        var randomY = Math.floor(Math.random() * screenHeight);
+
+        return { x: randomX, y: randomY };
+    }
+
+    function placePawPrintsRandomly() {
+        var pawPrintsContainer = document.querySelector('.paw-prints-container');
+        var pawPrints = document.querySelectorAll('.pad');
+
+        pawPrints.forEach(function (pawPrint) {
+            var randomPosition = getRandomPosition();
+
+            pawPrint.style.left = randomPosition.x + 'px';
+            pawPrint.style.top = randomPosition.y + 'px';
+
+            pawPrintsContainer.appendChild(pawPrint);
+        });
+    }
+
+    // Call the function to place paw prints randomly when the page loads
+    window.addEventListener('load', function () {
+        placePawPrintsRandomly(); // Initial placement
+
+        // Set interval to change the position every 3 seconds
+        setInterval(function () {
+            placePawPrintsRandomly();
+        }, 3000);
+    });
+</script>
 </body>
 </html>

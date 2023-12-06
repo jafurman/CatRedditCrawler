@@ -73,6 +73,8 @@ async function showTopCatBonus() {
     }
 }
 
+
+
 setInterval(fetchData, 5 * 1000);
 // Uncomment the line below if you want to fetch data once every 24 hours
 // setInterval(fetchData, 24 * 60 * 60 * 1000);
