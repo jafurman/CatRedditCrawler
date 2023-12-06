@@ -12,15 +12,15 @@ async function fetchData() {
                     <th colspan="2"> r/${randomCat.display_name} </th>
                 </tr>
                 <tr>
-                    <td> Description </td>
+                    <td> Descrritpion </td>
                     <td>${randomCat.CatDescription}</td>
                 </tr>
                 <tr>
-                    <td> Subscribers </td>
+                    <td> Subscrib(purr)ers </td>
                     <td>${randomCat.subscribers}</td>
                 </tr>
                 <tr>
-                    <td> Cat-Related Words </td>
+                    <td> Cat-Like Words Found </td>
                     <td>${randomCat['cat-like_words']}</td>
                 </tr>
                 <tr>
@@ -28,7 +28,7 @@ async function fetchData() {
                     <td>${randomCat['Total CatBonus']}</td>
                 </tr>
                 <tr>
-                    <td> Cat Document Score </td>
+                    <td> Cat Relevance Score </td>
                     <td>${randomCat['Cat Document Score']}</td>
                 </tr>
             `;
