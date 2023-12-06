@@ -58,9 +58,7 @@ async function showTopCatBonus() {
 
     if (data.length > 0) {
         const topCatBonusList = document.getElementById('topCatBonusList');
-        const topCatBonusData = data[data.length - 1]; // assuming addData is the last element
-
-        // Clear previous data
+        const topCatBonusData = data[data.length - 1];
         topCatBonusList.innerHTML = '';
 
         for (const entry of topCatBonusData) {
@@ -76,6 +74,6 @@ async function showTopCatBonus() {
 
 
 setInterval(fetchData, 5 * 1000);
-// Uncomment the line below if you want to fetch data once every 24 hours
+// Uncomment the line below to fetch data once every 24 hours
 // setInterval(fetchData, 24 * 60 * 60 * 1000);
 fetchData();
