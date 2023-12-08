@@ -19,65 +19,72 @@
             border: 1px solid #dcdcdc; /* Light gray border */
         }
 
-.banner {
-    background-color: #F9F9F9; /* Light grayish-white background color */
-    color: #333; /* Dark gray text color */
-    width: 100%;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    padding: 10px; /* Adjusted padding for a shorter banner */
-    text-align: center; /* Center-align the text */
-    font-size: 1.5em; /* Adjust the font size */
-    border-bottom: 1px solid #ccc; /* Thin gray line at the bottom */
-}
+        .banner {
+            background-color: #F9F9F9;
+            color: #333;
+            width: 100%;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between; /* Ensure space between h1 and links */
+            align-items: center;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+        }
 
-header {
-    display: flex;
-    justify-content: space-between; /* Move items to the left and right */
-    align-items: center;
-}
+        .banner a {
+            padding: 5px 8px;
+            background-color: #FFD1DC;
+            color: #551A8B;
+            border: none;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            margin-top: 5px;
+            border-radius: 3px;
+        }
 
-.banner a {
-    padding: 5px 10px; /* Adjusted padding for a smaller area */
-    background-color: #FFD1DC; /* Light pink button */
-    color: #551A8B; /* Dark purple text */
-    border: none;
-    cursor: pointer;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 14px; /* Adjusted font size for smaller text */
-    margin-top: 5px; /* Adjusted top margin */
-    border-radius: 5px;
-}
-
-.banner a:hover {
-    background-color: #8A2BE2; /* Darker purple on hover */
-    color: #FFF; /* White text on hover */
-}
+        .banner a:hover {
+            background-color: #8A2BE2;
+            color: #FFF;
+        }
 
         #content-container {
             text-align: center;
-            margin: 65px 20px; /* Adjusted top and side margins */
+            margin: 10px 40px; /* Adjusted top and side margins */
         }
 
         h1 {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            font-size: 36px; /* Increased font size */
-            font-weight: bold; /* Bold title */
+            margin: 0; /* Set margin to zero */
+            font-size: 36px;
+            font-weight: bold;
         }
 
-        h2, h3 {
-            text-align: center; /* Center-align subtitles */
-            font-size: 18px; /* Increased font size for subtitle */
+        h2, h4 {
+            text-align: left; /* Center-align subtitles */
+            font-size: 24px; /* Increased font size for subtitle */
             font-weight: bold; /* Bold subtitle */
             margin: 10px auto; /* 10px top and bottom margin, auto left and right margin */
             max-width: 800px; /* Set the maximum width for the text */
         }
+
+        h3 {
+            text-align: left;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 70px auto 10px;
+            max-width: 800px;
+        }
+
+        p {
+            text-align: left;
+            font-size: 17px;
+            max-width: 1000px;
+           }
 
         #catImage1,
         #catImage2 {
@@ -97,20 +104,20 @@ header {
         #data-table,
         #backgroundImage,
         #toggleTopCatBonus {
-            margin-top: 20px; /* Adjust the top margin as needed */
+            margin-top: 5px; /* Adjust the top margin as needed */
         }
 
         #data-table {
             border-collapse: collapse;
-            width: 70%;
-            max-height: 200px;
+            width: 60%;
+            max-height: 300px;
             overflow-y: auto;
-            margin: 40px auto 20px; /* Adjust the top and bottom margin as needed */
+            margin: 5px auto 5px; /* Adjust the top and bottom margin as needed */
         }
 
         #data-table th, #data-table td {
-            padding: 15px;
-            border: 1px solid #dcdcdc; /* Light gray border */
+            padding: 10px;
+            border: 3px solid #dcdcdc; /* Light gray border */
         }
 
         button {
@@ -131,7 +138,7 @@ header {
         }
 
         #toggleDataContainer {
-            margin-top: 40px; /* Adjust the top margin as needed */
+            margin-top: 20px; /* Adjust the top margin as needed */
         }
 
         li {
@@ -143,7 +150,7 @@ header {
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin: 65px 20px; /* Adjusted top and side margins */
+            margin: 20px 20px; /* Adjusted top and side margins */
         }
 
         #interact,
@@ -152,47 +159,55 @@ header {
         }
 
         footer {
-            margin-top: 20px;
+            margin-top: 60px;
             text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="banner">
-        <header>
-            <h1>
-                <img id="catImage1" src="/templates/catIcon.png" alt="Cat Image">
-                Ranking Subreddits Based on Relation to Cats
-                <img id="catImage2" src="/templates/catIcon.png" alt="Cat Image">
-            </h1>
-                <a href="#whatIsIt">About</a>
-                <a href="#interact">Interact</a>
-                <a href="#toggleTopCatBonus">Total Ranking</a>
-        </header>
+        <h1>
+            <img id="catImage1" src="/templates/catIcon.png" alt="Cat Image">
+            jaf
+            <img id="catImage2" src="/templates/catIcon.png" alt="Cat Image">
+        </h1>
+        <div>
+            <a href="#whatIsIt">[About]</a>
+            <a href="#interact">[Interact]</a>
+            <a href="#toggleTopCatBonus">[Ranking]</a>
+        </div>
+    </div>
+
+    <div id="whatIsIt">
+        <h3>
+            [[[What is this website? ]]]
+
+            <p>[ I made a bot that scraped the www.Reddit.com hostname and stored subreddits into a database that used
+                Flask to dynamically display the stored subreddits on this webpage. ]</p>
+        </h3>
+
+        <h2>
+            [[[ About ]]]
+            <p>[ Welcome to the website that I decided to make when my professor taught us about web crawlers.
+            How did you go from web crawlers to internet page you ask?
+            Well,
+            I was inspired to make my own, purely because saying I made a "web spider" sounded really cool.
+            I looked for websites to scrape and quickly found out that making a bot surf the web and store information purely for my own
+            benefit is.... how do I say this.... not the favorite of companies?
+            So after an hour of searching for something worthwhile to scrape I came across a gold mine: REDDIT.
+            And as for the cat content? I don't know, I like cats so it's cat themed... ]</p>
+        </h2>
+
     </div>
 
     <div id="content-container">
+        <div id="interact">
         <div id="randomCatData"></div>
         <table id="data-table"></table>
 
-        <div id="whatIsIt">
-        <h2>
-            A subreddit web spider that stores and scrapes subreddit HTML for words related to cats.
-        </h2>
-        <h3>
-            The 'Cat Document Score' below is calculated based on weights associated with 'cat' relevance.
-            So 'cat' has more weight than 'paw' because paw is an attribute of the cat, hence less total score
-            than the word 'cat' itself.
-        </h3>
+            <button>Good Cat Subreddit?</button>
+            <button>Bad Cat Subreddit?</button>
 
-        </div>
-
-        <div id="interactives">
-            <button id="interact">Good Cat Subreddit?</button>
-            <p>Hit the button if you think this subreddit is deserving of its Cat Document Score</p>
-
-            <button id="interactBad">Bad Cat Subreddit?</button>
-            <p>Hit the button above if you think this subreddit is NOT deserving of its Cat Document Score</p>
         </div>
 
         <div id="backgroundImage"></div>

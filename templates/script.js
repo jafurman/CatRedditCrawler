@@ -7,6 +7,9 @@ async function fetchData() {
 
         if (randomCat) {
             const dataTable = document.getElementById('data-table');
+            const timerElement = document.getElementById('timer');
+
+            // Display data in the table
             dataTable.innerHTML = `
                 <tr>
                     <th colspan="2"> r/${randomCat.display_name} </th>
@@ -31,7 +34,26 @@ async function fetchData() {
                     <td> Cat Relevance Score </td>
                     <td>${randomCat['Cat Document Score']}</td>
                 </tr>
+                <!-- New entry for the countdown -->
+                <tr>
+                    <td> New Subreddit in </td>
+                    <td id="countdown">Next update in 60 seconds</td>
+                </tr>
             `;
+
+            // Update timer every second
+            let secondsRemaining = 60;
+            const timerInterval = setInterval(() => {
+                secondsRemaining--;
+
+                if (secondsRemaining > 0) {
+                    document.getElementById('countdown').textContent = `${secondsRemaining} seconds`;
+                } else {
+                    clearInterval(timerInterval);
+                    document.getElementById('countdown').textContent = 'Updating...';
+                    fetchData(); // Fetch data immediately after the timer reaches zero
+                }
+            }, 1000);
         } else {
             console.error('RandomCat is undefined.');
         }
@@ -40,40 +62,10 @@ async function fetchData() {
     }
 }
 
-function toggleTopCatBonus() {
-    const toggleDataContainer = document.getElementById('toggleDataContainer');
+// Change interval to fetch data every minute
+setInterval(fetchData, 60 * 1000);
 
-    // Toggle visibility
-    if (toggleDataContainer.style.display === 'none' || !toggleDataContainer.style.display) {
-        toggleDataContainer.style.display = 'block';
-        showTopCatBonus();
-    } else {
-        toggleDataContainer.style.display = 'none';
-    }
-}
-
-async function showTopCatBonus() {
-    const response = await fetch('/api/data');
-    const data = await response.json();
-
-    if (data.length > 0) {
-        const topCatBonusList = document.getElementById('topCatBonusList');
-        const topCatBonusData = data[data.length - 1];
-        topCatBonusList.innerHTML = '';
-
-        for (const entry of topCatBonusData) {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${entry[1]}: ${entry[0]}`;
-            topCatBonusList.appendChild(listItem);
-        }
-    } else {
-        console.error('Data array is empty.');
-    }
-}
-
-
-
-setInterval(fetchData, 5 * 1000);
 // Uncomment the line below to fetch data once every 24 hours
 // setInterval(fetchData, 24 * 60 * 60 * 1000);
-fetchData();
+
+fetchData(); // Fetch data immediately when the page loads
