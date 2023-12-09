@@ -27,6 +27,10 @@ async function fetchData() {
                     <td>${randomCat['cat-like_words']}</td>
                 </tr>
                 <tr>
+                    <td> Images </td>
+                    <td>${randomCat['images']}</td>
+                </tr>
+                <tr>
                     <td> Total Cat Bonus </td>
                     <td>${randomCat['Total CatBonus']}</td>
                 </tr>
@@ -34,7 +38,6 @@ async function fetchData() {
                     <td> Cat Relevance Score </td>
                     <td>${randomCat['Cat Document Score']}</td>
                 </tr>
-                <!-- New entry for the countdown -->
                 <tr>
                     <td> New Subreddit in </td>
                     <td id="countdown">Next update in 60 seconds</td>
@@ -61,6 +64,12 @@ async function fetchData() {
         console.error('Data array is empty.');
     }
 }
+
+function toggleTopCatBonus() {
+    const toggleDataContainer = document.getElementById('toggleDataContainer');
+    toggleDataContainer.style.display = toggleDataContainer.style.display === 'none' ? 'block' : 'none';
+}
+
 
 // Change interval to fetch data every minute
 setInterval(fetchData, 60 * 1000);

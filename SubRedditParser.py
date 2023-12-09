@@ -109,10 +109,16 @@ def getSubredditInfo(subreddit_url):
             subreddit_header = driver.find_element(By.TAG_NAME, 'shreddit-subreddit-header')
 
             display_name = subreddit_header.get_attribute('display-name')
+            display_name = catLike(str(display_name))
             descrip = subreddit_header.get_attribute('description')
             descrip = catLike(str(descrip))
             subscribers = subreddit_header.get_attribute('subscribers')
             active_users = subreddit_header.get_attribute('active')
+            images = driver.find_elements(By.TAG_NAME, 'img')
+            images = list(images)
+            image_urls = [image.get_attribute('src') for image in images]
+
+
 
         except NoSuchElementException:
             print("Subreddit header not found")
@@ -123,6 +129,7 @@ def getSubredditInfo(subreddit_url):
             'CatDescription': str(descrip),
             'subscribers': str(subscribers),
             'active_users': str(active_users),
+            'images': str(image_urls),
             'cat-like_words': list(foundWords)
         }
 

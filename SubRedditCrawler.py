@@ -5,6 +5,7 @@ from collections import deque
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup as bs
+from concurrent.futures import ThreadPoolExecutor
 import pymongo
 import traceback
 import datetime
@@ -80,17 +81,6 @@ def is_valid_url(url):
         return False
 
 
-def takeOutUnwantedLinks(link_list):
-    valid_links = []
-
-    for url in link_list:
-        url_href = url.get("href")
-        if url_href and url_href.startswith("https://www.reddit.com/r/"):
-            valid_links.append(url)
-
-    return valid_links
-
-
 # Appending seeds to the frontier to add to DB
 def addLinksToFrontier(frontierQueue, url_string):
     if url_string not in frontierQueue:
@@ -125,35 +115,35 @@ def extract_subreddit(url_string):
 def crawlSubreddits(frontierQueue, visited_urls):
     total_links_visited = 0
 
-    while frontierQueue:
-        current_url = frontierQueue.popleft()
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        while frontierQueue:
+            current_url = frontierQueue.popleft()
 
-        # see which links are being crawled through (for logging if needed, can make permanent list here)
-        # print(f"Visiting and passing : {current_url}")
+            try:
+                # Use executor.submit to run the fetching process in parallel
+                future = executor.submit(urlopen, current_url)
+                html_page = future.result()
+            except HTTPError as e:
+                print(f"Error opening {current_url}: {e}")
+                continue
 
-        try:
-            html_page = urlopen(current_url)
-        except HTTPError as e:
-            print(f"Error opening {current_url}: {e}")
-            continue
+            soupy = bs(html_page.read(), "html.parser")
+            all_links = soupy.findAll('a', {})
+            valid_links = all_links
 
-        soupy = bs(html_page.read(), "html.parser")
-        all_links = soupy.findAll('a', {})
-        valid_links = takeOutUnwantedLinks(all_links)
+            for link in valid_links:
+                href_link = link.get("href")
+                if href_link and is_valid_url(href_link):
+                    frontierQueue = addLinksToFrontier(frontierQueue, href_link)
+                    href_link = extract_subreddit(href_link)
+                    if href_link not in visited_urls and href_link.startswith("https://www.reddit.com/r/"):
+                        total_links_visited += 1
+                        save_html_content_db(href_link, total_links_visited)
+                        visited_urls.add(href_link)
 
-        for link in valid_links:
-            href_link = link.get("href")
-            if href_link and is_valid_url(href_link):
-                frontierQueue = addLinksToFrontier(frontierQueue, href_link)
-                href_link = extract_subreddit(href_link)
-                if href_link not in visited_urls:
-                    total_links_visited += 1
-                    save_html_content_db(href_link, total_links_visited)
-                    visited_urls.add(href_link)
-
-                if total_links_visited >= 100000:
-                    frontierQueue.clear()
-                    break
+                    if total_links_visited >= 100000:
+                        frontierQueue.clear()
+                        break
 
 
 # ---------------------------- VV main method essentially VV----------------------------------#
@@ -161,7 +151,7 @@ def crawlSubreddits(frontierQueue, visited_urls):
 
 visited_urls = set()
 # initial frontier setting of reddit
-initialFrontier = deque(["https://www.reddit.com/r/"])
+initialFrontier = deque(["https://www.reddit.com/r"])
 
 # Adding hopefully the cat links to the frontier after ../cat/
 crawlSubreddits(initialFrontier, visited_urls)
