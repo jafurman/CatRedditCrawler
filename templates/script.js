@@ -65,14 +65,21 @@ async function fetchData() {
     }
 }
 
-function toggleTopCatBonus() {
-    const toggleDataContainer = document.getElementById('toggleDataContainer');
-    toggleDataContainer.style.display = toggleDataContainer.style.display === 'none' ? 'block' : 'none';
+async function toggleTopCatBonus() {
+  const toggleDataContainer = document.getElementById('toggleDataContainer');
+  const allData = await fetchAllData();
+  const sortedData = allData.sort((a, b) => b['Cat Document Score'] - a['Cat Document Score']);
+  toggleDataContainer.innerHTML = sortedData.map(item => `<p>${item['Cat Document Score']}: ${item.display_name}</p>`).join('');
+  toggleDataContainer.style.display = toggleDataContainer.style.display === 'none' ? 'block' : 'none';
+}
+
+async function fetchAllData() {
+  const response = await fetch('/api/data');
+  const data = await response.json();
+  return data;
 }
 
 
-// Change interval to fetch data every minute
-setInterval(fetchData, 60 * 1000);
 
 // Uncomment the line below to fetch data once every 24 hours
 // setInterval(fetchData, 24 * 60 * 60 * 1000);
