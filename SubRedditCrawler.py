@@ -2,8 +2,9 @@
 # create a website that posts photos of cats on specific pages
 import time
 from collections import deque
+from http.client import InvalidURL
 from urllib.request import urlopen
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup as bs
 from concurrent.futures import ThreadPoolExecutor
 import pymongo
@@ -103,12 +104,9 @@ def extract_subreddit(url_string):
             subreddit_name = match.group(1)
             return f'https://www.reddit.com/r/{subreddit_name}'
         else:
-            raise ValueError("Invalid URL format")
+            raise ValueError()
 
     except ValueError as e:
-        print(f"Error: {e}")
-        # Handle the error as needed (e.g., logging, returning a default value, etc.)
-        # In this example, we'll return the original URL
         return url_string
 
 
@@ -121,13 +119,27 @@ def crawlSubreddits(frontierQueue, visited_urls):
 
             try:
                 # Use executor.submit to run the fetching process in parallel
-                future = executor.submit(urlopen, current_url)
+                future = executor.submit(urlopen, current_url, timeout=10)  # Add timeout parameter
                 html_page = future.result()
             except HTTPError as e:
                 print(f"Error opening {current_url}: {e}")
                 continue
+            except URLError as e:
+                print(f"URLError opening {current_url}: {e}")
+                continue
+            except InvalidURL as e:
+                print(f"Invalid URL {current_url}: {e}")
+                continue
+            except Exception as e:
+                print(f"Error processing {current_url}: {e}")
+                continue
 
-            soupy = bs(html_page.read(), "html.parser")
+            try:
+                soupy = bs(html_page.read(), "html.parser")
+            except Exception as e:
+                print(f"Error parsing HTML for {current_url}: {e}")
+                continue
+
             all_links = soupy.findAll('a', {})
             valid_links = all_links
 
