@@ -116,6 +116,7 @@ def getSubredditInfo(subreddit_url):
             active_users = subreddit_header.get_attribute('active')
             images = driver.find_elements(By.TAG_NAME, 'img')
             images = list(images)
+
             image_urls = [image.get_attribute('src') for image in images]
 
 
