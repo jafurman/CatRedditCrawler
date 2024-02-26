@@ -1,6 +1,5 @@
 # I don't know why I created this. I now have a database with much more cat data than I intended. I think now I'll
 # create a website that posts photos of cats on specific pages
-import time
 from collections import deque
 from http.client import InvalidURL
 from urllib.request import urlopen
@@ -11,7 +10,6 @@ import pymongo
 import traceback
 import datetime
 from urllib.parse import urlparse
-import random
 import re
 
 
